@@ -1,6 +1,8 @@
 from django.shortcuts import render,redirect
-from .forms import RegistrationForm
+# from .forms import RegistrationForm
 # from .models import user_collection
+from .models import user_collection
+from django.http import HttpResponse
 
 from . import views
 # Create your views here.
@@ -38,3 +40,30 @@ def login(request):
 #         form = RegistrationForm()
     
 #     return render(request, 'register.html', {'form': form})
+def add_person(request):
+    records={
+        "firstname":"Talib",
+        "lastname":"Mir"
+    }
+    user_collection.insert_one(records)
+    return HttpResponse("New Person is added")
+
+
+def register(request):
+    if request.method == 'POST':
+        # Get form data
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        
+        # Save the user data in MongoDB
+        user_data = {
+            'username': username,
+            'email': email,
+            'password': password  # Save as plain text for now; use hashing for security later
+        }
+        user_collection.insert_one(user_data)
+
+        return render(request, 'register.html', {'message': 'User registered successfully!'})
+
+    return render(request, 'register.html')

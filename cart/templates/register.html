@@ -1,22 +1,28 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-    <div class="auth-container">
-        <div class="auth-card">
-            <h2>Register</h2>
-            <form method="POST">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="btn primary-btn">Create Account</button>
-            </form>
-        </div>
-    </div>
+    <h2>Register</h2>
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
+    <form method="POST">
+        {% csrf_token %}
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username" required><br><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+
+        <button type="submit">Register</button>
+    </form>
 </body>
 </html>
+
++

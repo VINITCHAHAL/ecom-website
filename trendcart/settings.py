@@ -71,12 +71,12 @@ WSGI_APPLICATION = 'trendcart.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'djongo',
-        'NAME': 'test_db', 
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'djongo',
+#         'NAME': 'ecom_website', 
+#     }
+# }
 
 
 
