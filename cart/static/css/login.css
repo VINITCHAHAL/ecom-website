@@ -1,0 +1,138 @@
+/* Reset styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Container styling */
+  .login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+  }
+  
+  /* Login form styling */
+  .login-form {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    animation: slideIn 0.5s ease-out;
+  }
+  
+  /* Form title */
+  .title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  /* Input group */
+  .input-group {
+    margin-bottom: 20px;
+  }
+  
+  .input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  /* Button styles */
+  .btn {
+    background: #6e8efb;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+    transition: background 0.3s;
+  }
+  
+  .btn:hover {
+    background: #5768d7;
+  }
+  
+  /* Signup text */
+  .signup-text {
+    margin: 20px 0;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  /* Social button styles */
+  .social-options {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    align-items: center;
+  }
+  
+  .social-btn {
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 13px;
+    color: white;
+    width: 23%;
+    text-align: center;
+    align-items: center;
+    transition: background 0.3s;
+    justify-content: space-between;
+  }
+  
+  .facebook {
+    background: #3b5998;
+  }
+  
+  .facebook:hover {
+    background: #2d4373;
+  }
+  
+  .google {
+    background: #db4437;
+  }
+  
+  .google:hover {
+    background: #c23321;
+  }
+  
+  .twitter {
+    background: #1da1f2;
+  }
+  
+  .twitter:hover {
+    background: #0c8cd7;
+  }
+  
+  .linkedin {
+    background: #0077b5;
+  }
+  
+  .linkedin:hover {
+    background: #005582;
+  }
+  
+  /* Animation for sliding in the form */
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
