@@ -1,7 +1,8 @@
-from djongo import models
+from django.db import models
 from db_connection import db
 
-user_collection = db['user']
+
+user_collection = db['cred']
 
 # from djongo import models
 
