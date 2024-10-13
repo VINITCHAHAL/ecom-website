@@ -1,2 +1,4 @@
 /myenv
 /.venv
+/.gitignore
+/.env
