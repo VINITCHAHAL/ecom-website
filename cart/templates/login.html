@@ -19,6 +19,7 @@
           <input type="password" name="password" required placeholder="Password" />
         </div>
         <button type="submit" class="btn">Login</button>
+
         <p class="signup-text">Or sign up with:</p>
         <div class="social-options">
           <a href="https://www.facebook.com/" class="social-btn facebook" target="_blank">Facebook</a>
@@ -26,6 +27,10 @@
           <a href="https://twitter.com/" class="social-btn twitter" target="_blank">Twitter</a>
           <a href="https://www.linkedin.com/" class="social-btn linkedin" target="_blank">LinkedIn</a>
         </div>
+
+        <p class="signup-text">Don't have an account? 
+          <a href="{% url 'register' %}">Sign Up</a>
+        </p>
       </form>
     </div>
   </body>
