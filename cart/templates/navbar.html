@@ -1,9 +1,10 @@
 <section class="navbar">
     <nav class="nav-links">
         <ul>
-            <li>About</li>
-            <li>Services</li>
-            <li>Contact</li>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'about' %}">About</a></li>
+            <li><a href="{% url 'services' %}">Services</a></li>
+            <li><a href="{% url 'contact' %}">Contact</a></li>
         </ul>
     </nav>
 
@@ -13,7 +14,14 @@
     </span>
 
     <div class="btn">
-        <a href="login/">Login</a>
-        <a href="register/" target=_blank>Signup</a>
+        {% if request.session.username %}
+            <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit">Logout</button>
+            </form>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'register' %}" target="_blank">Signup</a>
+        {% endif %}
     </div>
 </section>

@@ -2,9 +2,8 @@ from django.shortcuts import render,redirect
 from .models import user_collection
 from django.http import HttpResponse
 from . import views
-
-def home(request):
-    return render(request,'home.html')
+from django.contrib import messages
+from db_connection import db 
 
 def login(request):
     if request.method == 'POST':
@@ -16,17 +15,21 @@ def login(request):
         if user: 
             return redirect('profile', username=username)
         else:
-            return render(request, 'login.html', {'error': 'Invalid username or password.'})
+            messages.error(request, "Invalid username or password") 
 
     return render(request, 'login.html')
 
-def add_person(request):
-    records={
-        "firstname":"Talib",
-        "lastname":"Mir"
-    }
-    user_collection.insert_one(records)
-    return HttpResponse("New Person is added")
+def logout(request):
+
+    request.session.flush()
+    return redirect('home')  
+
+def profile(request, username=None):
+    username = request.session.get('username', 'Guest')
+    return render(request, 'profile.html', {'username': username})
+
+def home(request):
+    return render(request, 'home.html')
 
 def register(request):
     if request.method == 'POST':
@@ -46,15 +49,15 @@ def register(request):
 
     return render(request, 'register.html')
 
-def profile(request, username):
-    user = user_collection.find_one({"username": username})
-    if user:
-        return render(request, 'profile.html', {'username': user['username']})
-    else:
-        return HttpResponse("User not found.")
+def about(request):
+    return render(request, 'about.html')
+
+def contact(request):
+    return render(request, 'contact.html')
+
+def services(request):
+    return render(request, 'services.html')
+
+def ecom(request):
     
-def logout(request):
-    request.session.flush() 
-    return redirect('login')  
-
-
+    return render(request, 'ecom.html')
