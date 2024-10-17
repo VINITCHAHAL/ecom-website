@@ -1,0 +1,41 @@
+body {
+    font-family: cursive;
+}
+
+.product-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around; /* Space products evenly */
+    padding: 20px;
+}
+
+.product-card {
+    border: 1px solid #ddd; /* Optional: add a border around each product */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px;
+    margin: 10px;
+    width: 200px; /* Fixed width for product cards */
+    text-align: center; /* Center the text */
+}
+
+.product-image {
+    width: 100%; /* Make image fill the container */
+    height: 150px; /* Fixed height */
+    object-fit: cover; /* Maintain aspect ratio */
+}
+
+.product-name {
+    font-weight: bold; /* Bold for product name */
+    margin: 5px 0; /* Margin for spacing */
+}
+
+.product-price {
+    color: #b12704; /* Amazon-like red for prices */
+    font-size: 18px; /* Slightly larger font size */
+    margin: 5px 0; /* Margin for spacing */
+}
+
+.product-quantity {
+    color: #555; /* Gray for quantity */
+    margin: 5px 0; /* Margin for spacing */
+}

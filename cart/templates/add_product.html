@@ -1,0 +1,10 @@
+{% load static %}
+<body>
+    <h1>Add Product</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Product</button>
+    </form>
+</body>
+</html>

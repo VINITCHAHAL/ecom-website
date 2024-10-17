@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/product.css' %}">
+</head>
+<body>
+    <Shopping prod
+    <div class="product-container">
+        {% for product in products %}
+            <div class="product-card">
+                <img src="data:image/jpeg;base64,{{ product.image_data }}" alt="{{ product.name }}" class="product-image" />
+                <div class="product-name">{{ product.name }}</div>
+                <div class="product-price">Price: ${{ product.price }}</div>
+                <div class="product-quantity">Quantity: {{ product.quantity }}</div>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
