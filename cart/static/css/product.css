@@ -5,37 +5,37 @@ body {
 .product-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around; /* Space products evenly */
+    justify-content: space-around; 
     padding: 20px;
 }
 
 .product-card {
-    border: 1px solid #ddd; /* Optional: add a border around each product */
-    border-radius: 5px; /* Rounded corners */
+    border: 1px solid #ddd; 
+    border-radius: 5px; 
     padding: 10px;
     margin: 10px;
-    width: 200px; /* Fixed width for product cards */
-    text-align: center; /* Center the text */
+    width: 200px;
+    text-align: center; 
 }
 
 .product-image {
-    width: 100%; /* Make image fill the container */
-    height: 150px; /* Fixed height */
-    object-fit: cover; /* Maintain aspect ratio */
+    width: 100%; 
+    height: 150px; 
+    object-fit: cover; 
 }
 
 .product-name {
-    font-weight: bold; /* Bold for product name */
-    margin: 5px 0; /* Margin for spacing */
+    font-weight: bold; 
+    margin: 5px 0; 
 }
 
 .product-price {
-    color: #b12704; /* Amazon-like red for prices */
-    font-size: 18px; /* Slightly larger font size */
-    margin: 5px 0; /* Margin for spacing */
+    color: #b12704; 
+    font-size: 18px;
+    margin: 5px 0; 
 }
 
 .product-quantity {
-    color: #555; /* Gray for quantity */
-    margin: 5px 0; /* Margin for spacing */
+    color: #555; 
+    margin: 5px 0; 
 }

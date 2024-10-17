@@ -1,36 +1,35 @@
-/* register.css */
 body {
     font-family: cursive;
     margin: 0;
     padding: 0;
-    background-color: #c8e2e6; /* Light sky blue background color */
+    background-color: #c8e2e6;
 }
 
 h2 {
     text-align: center;
-    color: #2874f0; /* Flipkart's blue color */
-    font-size: 2em; /* Larger heading */
-    margin-bottom: 20px; /* Space below the heading */
+    color: #2874f0; 
+    font-size: 2em;
+    margin-bottom: 20px; 
 }
 
 .container {
-    max-width: 400px; /* Width of the form */
-    margin: auto; /* Center the form */
-    background-color: white; /* White background for form */
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* More pronounced shadow */
-    padding: 30px; /* Padding inside the form */
-    transition: transform 0.2s; /* Smooth transform */
+    max-width: 400px; 
+    margin: auto; 
+    background-color: white; 
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); 
+    padding: 30px; 
+    transition: transform 0.2s; 
 }
 
 .container:hover {
-    transform: translateY(-5px); /* Lift effect on hover */
+    transform: translateY(-5px); 
 }
 
 label {
-    color: #555; /* Darker text color for labels */
-    font-weight: bold; /* Bold text */
-    margin-top: 15px; /* Space above labels */
+    color: #555; 
+    font-weight: bold; 
+    margin-top: 15px;
 }
 
 input[type="text"],
@@ -53,59 +52,59 @@ input[type="password"]:focus {
 }
 
 button {
-    width: 100%; /* Full width button */
-    background-color: #ffcc00; /* Bright yellow for visibility */
-    color: #333; /* Dark text */
-    padding: 12px; /* Padding for button */
-    border: none; /* No border */
-    border-radius: 6px; /* Rounded edges */
-    cursor: pointer; /* Pointer cursor on hover */
-    font-size: 18px; /* Larger font size */
-    transition: background-color 0.3s, transform 0.2s; /* Smooth transitions */
+    width: 100%; 
+    background-color: #ffcc00; 
+    color: #333; 
+    padding: 12px; 
+    border: none; 
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 18px; 
+    transition: background-color 0.3s, transform 0.2s; 
 }
 
 button:hover {
-    background-color: #e6b800; /* Darker yellow on hover */
-    transform: translateY(-2px); /* Lift effect on hover */
+    background-color: #e6b800; 
+    transform: translateY(-2px); 
 }
 
 .message {
     text-align: center;
-    color: red; /* Red color for error messages */
-    margin: 10px 0; /* Margin around message */
-    font-weight: bold; /* Bold error message */
+    color: red; 
+    margin: 10px 0; 
+    font-weight: bold; 
 }
 
 .social-options {
     text-align: center;
-    margin-top: 20px; /* Space above social options */
+    margin-top: 20px;
 }
 
 .social-btn {
-    display: inline-block; /* Align buttons inline */
-    margin: 5px; /* Space around buttons */
-    padding: 10px 15px; /* Padding for buttons */
-    border-radius: 6px; /* Rounded edges */
-    color: white; /* White text */
-    text-decoration: none; /* Remove underline */
+    display: inline-block; 
+    margin: 5px; 
+    padding: 10px 15px; 
+    border-radius: 6px; 
+    color: white; 
+    text-decoration: none; 
 }
 
 .social-btn.facebook {
-    background-color: #3b5998; /* Facebook color */
+    background-color: #3b5998; 
 }
 
 .social-btn.google {
-    background-color: #db4437; /* Google color */
+    background-color: #db4437; 
 }
 
 .social-btn.twitter {
-    background-color: #1da1f2; /* Twitter color */
+    background-color: #1da1f2;
 }
 
 .social-btn.linkedin {
-    background-color: #0077b5; /* LinkedIn color */
+    background-color: #0077b5; 
 }
 
 .social-btn:hover {
-    opacity: 0.8; /* Slight opacity change on hover */
+    opacity: 0.8; 
 }
