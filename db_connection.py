@@ -5,3 +5,6 @@ client = pymongo.MongoClient(url)
 
 db=client['ecom_website']
 
+# Function to return the database instance
+def get_db():
+    return db

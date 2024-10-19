@@ -117,3 +117,111 @@ def services(request):
 
 def ecom(request):
     return render(request, 'ecom.html')
+
+from django.shortcuts import render, redirect
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from db_connection import get_db  # Import the database connection
+
+# Access the MongoDB collection
+db = get_db()
+cart_collection = db['addtocart']
+
+@csrf_exempt
+def add_to_cart(request):
+    if request.method == 'POST':
+        product_id = request.POST.get('product_id')
+        quantity = int(request.POST.get('quantity', 1))
+        
+        cart_item = {
+            'product_id': product_id,
+            'quantity': quantity,
+            'user_id': request.user.id  # Assuming you have user authentication
+        }
+        
+        cart_collection.insert_one(cart_item)
+        
+        return JsonResponse({'message': 'Product added to cart!'})
+
+def view_cart(request):
+    user_id = request.user.id
+    cart_items = list(cart_collection.find({'user_id': user_id}))
+    
+    return render(request, 'cart.html', {'cart_items': cart_items})
+
+@csrf_exempt
+def remove_from_cart(request, product_id):
+    user_id = request.user.id
+    cart_collection.delete_one({'product_id': product_id, 'user_id': user_id})
+    
+    return JsonResponse({'message': 'Product removed from cart!'})
+
+from django.shortcuts import render
+from django.http import JsonResponse
+from db_connection import get_db  # Import the database connection
+
+# Access the MongoDB collection
+db = get_db()
+cart_collection = db['addtocart']
+
+def view_cart(request):
+    # Assuming you have user authentication set up
+    user_id = request.user.id
+    cart_items = list(cart_collection.find({'user_id': user_id}))
+
+    # If you have a products collection, fetch product details for each item in the cart
+    products_collection = db['products']  # Ensure this matches your collection name
+    for item in cart_items:
+        product = products_collection.find_one({'_id': item['product_id']})
+        if product:
+            item['name'] = product['name']
+            item['price'] = product['price']
+            item['image_data'] = product['image_data']
+
+    return render(request, 'cart.html', {'cart_items': cart_items})
+
+def checkout(request):
+    user_id = request.user.id
+    cart_items = list(cart_collection.find({'user_id': user_id}))
+
+    # If you have a products collection, fetch product details for each item in the cart
+    products_collection = db['products']  # Make sure this matches your collection name
+    total_price = 0
+    for item in cart_items:
+        product = products_collection.find_one({'_id': item['product_id']})
+        if product:
+            item['name'] = product['name']
+            item['price'] = product['price']
+            item['image_data'] = product['image_data']
+            item['total'] = item['price'] * item['quantity']
+            total_price += item['total']
+
+    return render(request, 'checkout.html', {'cart_items': cart_items, 'total_price': total_price})
+
+@csrf_exempt
+def complete_order(request):
+    if request.method == 'POST':
+        user_id = request.user.id
+        cart_items = list(cart_collection.find({'user_id': user_id}))
+        
+        # Process the order (e.g., save to orders collection, clear the cart)
+        orders_collection = db['orders']
+        order = {
+            'user_id': user_id,
+            'items': cart_items,
+            'total_price': sum(item['quantity'] * item['price'] for item in cart_items),
+            'status': 'Pending'
+        }
+        orders_collection.insert_one(order)
+
+        # Clear the user's cart after completing the order
+        cart_collection.delete_many({'user_id': user_id})
+
+        return JsonResponse({'message': 'Order completed successfully!'})
+    
+def view_cart(request):
+    user_id = request.user.id
+    cart_items = list(cart_collection.find({'user_id': user_id}))
+    return render(request, 'cart.html', {'cart_items': cart_items})
+
+

@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/checkout.css' %}">
+</head>
+<body>
+    <h1>Checkout</h1>
+    <div class="checkout-container">
+        {% if cart_items %}
+            <table class="checkout-table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart_items %}
+                        <tr>
+                            <td>{{ item.name }}</td>
+                            <td>${{ item.price }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>${{ item.total }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="total-price">
+                <h3>Total: ${{ total_price }}</h3>
+            </div>
+            <form action="{% url 'complete_order' %}" method="POST">
+                {% csrf_token %}
+                <button type="submit">Complete Order</button>
+            </form>
+        {% else %}
+            <p>Your cart is empty!</p>
+        {% endif %}
+    </div>
+</body>
+</html>
