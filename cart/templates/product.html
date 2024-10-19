@@ -19,9 +19,8 @@
                 <!-- Add to Cart Form -->
                 <form action="{% url 'add_to_cart' %}" method="POST">
                     {% csrf_token %}
-                    <input type="hidden" name="product_id" value="{{ product.id }}">
-                    <label for="quantity_{{ product.id }}">Quantity:</label>
-                    <input type="number" name="quantity" id="quantity_{{ product.id }}" value="1" min="1" max="{{ product.quantity }}">
+                    <input type="hidden" name="product_id" value="{{ product.product_id }}"> <!-- Make sure to use the correct field -->
+                    <input type="number" name="quantity" value="1" min="1">
                     <button type="submit">Add to Cart</button>
                 </form>
             </div>

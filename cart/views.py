@@ -17,12 +17,14 @@ def login(request):
         user = user_collection.find_one({"name": username, "password": password})
         
         if user: 
-            request.session['username'] = username
+            request.session['username'] = username  # Ensure this is set
+            request.session['user_id'] = str(user['_id'])  # Optionally store user ID as well
             return redirect('profile', username=username)
         else:
             messages.error(request, "Invalid username or password") 
 
     return render(request, 'login.html')
+
 
 def logout(request):
     if request.method == 'POST':
@@ -98,7 +100,8 @@ def home_new(request):
             'name': product['name'],
             'price': product['price'],
             'quantity': product['quantity'],
-            'image_data': encoded_image
+            'image_data': encoded_image,
+            'product_id': str(product['_id'])
         })
 
     return render(request, 'product.html', {'products': product_list})
@@ -132,23 +135,30 @@ def add_to_cart(request):
     if request.method == 'POST':
         product_id = request.POST.get('product_id')
         quantity = int(request.POST.get('quantity', 1))
-        
+
+        # Ensure the product_id is valid
+        if not product_id:
+            print("NO product ID")
+            return JsonResponse({'message': 'Product ID is required'}, status=400)
+
+        # Check if the user is authenticated
+        user_id = request.session.get('user_id')  # Get user ID from the session
+        if not user_id:
+            return JsonResponse({'message': 'You need to be logged in to add items to your cart.'}, status=401)
+
         cart_item = {
             'product_id': product_id,
             'quantity': quantity,
-            'user_id': request.user.id  # Assuming you have user authentication
+            'user_id': user_id  # Store user ID in the cart item
         }
         
+        # Insert the item into the cart
         cart_collection.insert_one(cart_item)
-        
-        return JsonResponse({'message': 'Product added to cart!'})
 
-def view_cart(request):
-    user_id = request.user.id
-    cart_items = list(cart_collection.find({'user_id': user_id}))
+        print("Product added successfully")
+        return redirect('checkout')  # Redirect to checkout after adding to cart
     
-    return render(request, 'cart.html', {'cart_items': cart_items})
-
+    return JsonResponse({'message': 'Invalid request method'}, status=400)
 @csrf_exempt
 def remove_from_cart(request, product_id):
     user_id = request.user.id
@@ -170,7 +180,7 @@ def view_cart(request):
     cart_items = list(cart_collection.find({'user_id': user_id}))
 
     # If you have a products collection, fetch product details for each item in the cart
-    products_collection = db['products']  # Ensure this matches your collection name
+    products_collection = db['product_details']  # Ensure this matches your collection name
     for item in cart_items:
         product = products_collection.find_one({'_id': item['product_id']})
         if product:
@@ -179,22 +189,46 @@ def view_cart(request):
             item['image_data'] = product['image_data']
 
     return render(request, 'cart.html', {'cart_items': cart_items})
+from django.shortcuts import render
+from pymongo import MongoClient
+from bson.objectid import ObjectId  # Import ObjectId for decoding
+
+# Connect to MongoDB (ensure the connection details are correct)
+client = MongoClient('mongodb://localhost:27017/')
+db = client['ecom_website']  # Database name
+cart_collection = db['addtocart']
+products_collection = db['product_details']  # Ensure this matches your collection name
 
 def checkout(request):
-    user_id = request.user.id
-    cart_items = list(cart_collection.find({'user_id': user_id}))
+    # Replace this with the user_id you want to check against
+    user_id = "67113ab2a42d802e3d319ae8"  # Example user_id, replace as necessary
+    
+    # Fetch the cart items based on user_id
+    cart_items_cursor = cart_collection.find({'user_id': user_id})
+    cart_items = list(cart_items_cursor)
 
-    # If you have a products collection, fetch product details for each item in the cart
-    products_collection = db['products']  # Make sure this matches your collection name
     total_price = 0
+
     for item in cart_items:
-        product = products_collection.find_one({'_id': item['product_id']})
-        if product:
-            item['name'] = product['name']
-            item['price'] = product['price']
-            item['image_data'] = product['image_data']
-            item['total'] = item['price'] * item['quantity']
-            total_price += item['total']
+        try:
+            # Decode the product_id as an ObjectId
+            product_id = ObjectId(item['product_id'])  # Convert string to ObjectId
+
+            # Fetch product details using the product_id
+            product = products_collection.find_one({'_id': product_id})  # Use ObjectId here
+            if product:
+                item['name'] = product['name']
+                item['price'] = product['price']
+                item['total'] = product['price'] * item['quantity']  # Correct total calculation
+                item['image_id'] = product['image_id']  # Include image_id for fetching the image
+                total_price += item['total']
+            else:
+                print(f"Product not found for ID: {item['product_id']}")  # Debugging line
+        except Exception as e:
+            print(f"Error retrieving product for item {item}: {e}")  # Error handling
+
+    # Log the retrieved cart items for debugging
+    print("Final cart items:", cart_items)
 
     return render(request, 'checkout.html', {'cart_items': cart_items, 'total_price': total_price})
 
@@ -219,9 +253,5 @@ def complete_order(request):
 
         return JsonResponse({'message': 'Order completed successfully!'})
     
-def view_cart(request):
-    user_id = request.user.id
-    cart_items = list(cart_collection.find({'user_id': user_id}))
-    return render(request, 'cart.html', {'cart_items': cart_items})
 
 
