@@ -8,6 +8,8 @@ user_collection = db['cred']
 import gridfs
 import base64
 from .forms import ProductForm
+from base64 import b64encode
+
 
 def login(request):
     if request.method == 'POST':
@@ -135,6 +137,7 @@ def add_to_cart(request):
     if request.method == 'POST':
         product_id = request.POST.get('product_id')
         quantity = int(request.POST.get('quantity', 1))
+        image_id = request.POST.get('image_id')
 
         # Ensure the product_id is valid
         if not product_id:
@@ -149,7 +152,8 @@ def add_to_cart(request):
         cart_item = {
             'product_id': product_id,
             'quantity': quantity,
-            'user_id': user_id  # Store user ID in the cart item
+            'user_id': user_id,
+            'image_id': image_data,
         }
         
         # Insert the item into the cart
@@ -217,10 +221,11 @@ def checkout(request):
             # Fetch product details using the product_id
             product = products_collection.find_one({'_id': product_id})  # Use ObjectId here
             if product:
+                image_data = b64encode(product['image_id']).decode('utf-8')
                 item['name'] = product['name']
                 item['price'] = product['price']
                 item['total'] = product['price'] * item['quantity']  # Correct total calculation
-                item['image_id'] = product['image_id']  # Include image_id for fetching the image
+                item['image_id'] = product['image_data']  # Include image_id for fetching the image
                 total_price += item['total']
             else:
                 print(f"Product not found for ID: {item['product_id']}")  # Debugging line
