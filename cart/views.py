@@ -153,7 +153,7 @@ def add_to_cart(request):
             'product_id': product_id,
             'quantity': quantity,
             'user_id': user_id,
-            'image_id': image_data,
+            # 'image_id': image_data,
         }
         
         # Insert the item into the cart
