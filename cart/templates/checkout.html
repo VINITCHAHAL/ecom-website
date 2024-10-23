@@ -5,17 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout</title>
-    {% comment %} <link rel="stylesheet" type="text/css" href="{% static 'css/checkout.css' %}"> {% endcomment %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/navbar.css' %}">
 </head>
 <body>
-    <h1>Checkout</h1>
+    {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+</head>
+    {% include 'navbar.html' %}
     <div class="checkout-container">
         {% if cart_items %}
             <table class="checkout-table">
                 <thead>
                     <tr>
                         <th>Product</th>
-                        <th>Image</th>  <!-- Added Image Column -->
+                        <th>Image</th> 
                         <th>Price</th>
                         <th>Quantity</th>
                         <th>Total</th>
@@ -34,9 +42,7 @@
                         </tr>
                     {% endfor %}
                 </tbody>
-                
-                
-            </table>
+                </table>
             <div class="total-price">
                 <h3>Total: ${{ total_price }}</h3>
             </div>

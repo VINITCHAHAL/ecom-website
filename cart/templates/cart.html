@@ -1,24 +1,3 @@
-{% comment %} <!DOCTYPE html>
-<html>
-<head>
-    <title>Shopping Cart</title>
-</head>
-<body>
-    <h1>Your Cart</h1>
-    <ul>
-        {% for item in cart_items %}
-            <li>
-                Product ID: {{ item.product_id }} - Quantity: {{ item.quantity }}
-                <form action="{% url 'remove_from_cart' item.product_id %}" method="POST">
-                    {% csrf_token %}
-                    <button type="submit">Remove</button>
-                </form>
-            </li>
-        {% endfor %}
-    </ul>
-</body>
-</html> {% endcomment %}
-
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -27,8 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Cart</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/cart.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/navbar.css' %}">
 </head>
 <body>
+    {% include 'navbar.html' %}
     <h1>Your Shopping Cart</h1>
     <div class="cart-container">
         {% if cart_items %}
