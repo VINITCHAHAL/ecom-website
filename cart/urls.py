@@ -1,6 +1,5 @@
 from django.urls import path
 from . import views
-
 urlpatterns = [
     path('', views.home, name='home'),
     path('login/', views.login, name='login'), 
@@ -11,7 +10,6 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('contact/', views.contact, name='contact'),
     path('services/', views.services, name='services'),
-    path('ecom/', views.ecom, name='ecom'),
     path('add-product/', views.add_product, name='add_product'),
     path('home_new/', views.home_new, name='home_new'),
     path('add-to-cart/', views.add_to_cart, name='add_to_cart'),
@@ -19,5 +17,6 @@ urlpatterns = [
     path('checkout/', views.checkout, name='checkout'),
     path('remove-from-cart/<str:product_id>/', views.remove_from_cart, name='remove_from_cart'),
     path('complete-order/', views.complete_order, name='complete_order'),
+    # path('search/', views.search, name='search'),
 ]
 

@@ -1,0 +1,59 @@
+html,body {
+    margin: 0;
+    padding: 0;
+  }
+  
+.navbar {
+    background-color: antiquewhite;
+    width: 100%;
+    font-size: medium;
+    padding: 5px 0 5px 0;
+    font-weight: 100;
+    font-family: cursive;
+    display: flex;
+    gap: 9%;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 2px solid black;
+    position: fixed !important;
+    top: 0px;
+    z-index: 10;
+  }
+  
+  .nav-links ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 15px;
+  }
+  
+  .search-bar {
+    display: flex;
+    align-items: center;
+    width: 20%;
+  
+    input[type="text"] {
+        padding: 3px;
+        font-size: medium;
+        margin-right:5px;
+        font-size:14px;
+    }
+  
+    button {
+        padding: 3px;
+        
+    }
+  }
+  
+  .btn {
+    a {
+      text-decoration: none;
+      color: #000000;
+      border: 1.5px solid #000000;
+      padding: 2px;
+      margin-right: 5px;
+      border-radius: 4.5px;
+    }
+  
+  }

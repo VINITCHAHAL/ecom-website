@@ -1,61 +1,14 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #2874f0; /* Flipkart's blue color */
-            padding: 10px 20px;
-        }
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            padding: 14px 20px;
-            transition: background-color 0.3s;
-        }
-        .navbar a:hover {
-            background-color: #0056b3; /* Darker blue on hover */
-        }
-        .logout-btn {
-            background-color: #ffcc00; /* Logout button color */
-            border: none;
-            color: black;
-            padding: 10px 15px;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-        .logout-btn:hover {
-            background-color: #e6b800; /* Darker yellow on hover */
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
 </head>
 <body>
-
-    <div class="navbar">
-        <div>
-            <a href="{% url 'home' %}">Home</a>
-            <a href="{% url 'profile' %}">Profile</a>
-            <a href="{% url 'home_new' %}">Product</a>
-            <a href="{% url 'about' %}">About</a>
-            <a ahref="{% url 'contact' %}">Contact</a>
-        </div>
-        <form action="{% url 'logout' %}" method="post" style="display: inline;">
-            {% csrf_token %}
-            <button type="submit" class="logout-btn">Logout</button>
-        </form>
-    </div>
-
+    {% include 'navbar.html' %}
     <h1>Welcome to your profile page</h1>
     <p>Username: {{ username }}</p>
     

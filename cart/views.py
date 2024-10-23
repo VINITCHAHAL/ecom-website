@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from . import views
 from django.contrib import messages
 from db_connection import db 
-user_collection = db['cred']
+user_collection = db['user_data']
 import gridfs
 import base64
 from .forms import ProductForm

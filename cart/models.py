@@ -1,6 +1,6 @@
 from django.db import models
 from db_connection import db
-user_collection = db['cred']
+user_collection = db['user_data']
 
 class User(models.Model):
     name = models.CharField(max_length=100)
