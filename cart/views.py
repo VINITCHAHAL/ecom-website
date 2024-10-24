@@ -4,7 +4,6 @@ from django.http import HttpResponse
 from . import views
 from django.contrib import messages
 from db_connection import db 
-user_collection = db['user_data']
 import gridfs
 import base64
 from .forms import ProductForm
@@ -16,6 +15,7 @@ from pymongo import MongoClient
 from bson.objectid import ObjectId  
 client = MongoClient('mongodb://localhost:27017/')
 db = client['ecom_website']  
+user_collection = db['user_data']
 cart_collection = db['addtocart']
 products_collection = db['product_details'] 
 db = get_db()
@@ -115,7 +115,7 @@ def home_new(request):
 def add_to_cart(request):
     if request.method == 'POST':
         product_id = request.POST.get('product_id')
-        quantity = int(request.POST.get('quantity', 1))
+        quantity = int(request.POST.get('quantity'))
         image_id = request.POST.get('image_id')
         if not product_id:
             print("NO product ID")
@@ -152,25 +152,28 @@ def view_cart(request):
     return render(request, 'cart.html', {'cart_items': cart_items})
 
 def checkout(request):
-    user_id = "67113ab2a42d802e3d319ae8"  
+    user_id = request.session.get('user_id')
     cart_items_cursor = cart_collection.find({'user_id': user_id})
     cart_items = list(cart_items_cursor)
     total_price = 0
+    fs = gridfs.GridFS(db)
     for item in cart_items:
         try:
             product_id = ObjectId(item['product_id'])
-            product = products_collection.find_one({'_id': product_id})  
+            product = products_collection.find_one({'_id': product_id})
             if product:
-                image_data = b64encode(product['image_id']).decode('utf-8')
+                image_id = product['image_id']
+                image_data = fs.get(image_id).read() 
+                encoded_image = base64.b64encode(image_data).decode('utf-8')
                 item['name'] = product['name']
                 item['price'] = product['price']
-                item['total'] = product['price'] * item['quantity']  
-                item['image_id'] = product['image_data']  
+                item['total'] = product['price'] * item['quantity']
+                item['image_id'] = encoded_image  
                 total_price += item['total']
             else:
-                print(f"Product not found for ID: {item['product_id']}")  
+                print(f"Product not found for ID: {item['product_id']}")
         except Exception as e:
-            print(f"Error retrieving product for item {item}: {e}")  
+            print(f"Error retrieving product for item {item}: {e}")
     print("Final cart items:", cart_items)
     return render(request, 'checkout.html', {'cart_items': cart_items, 'total_price': total_price})
 
