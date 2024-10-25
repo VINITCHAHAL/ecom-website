@@ -6,53 +6,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/navbar.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/checkout.css' %}">
 </head>
 <body>
-    {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkout</title>
-</head>
     {% include 'navbar.html' %}
     <div class="checkout-container">
         {% if cart_items %}
-            <table class="checkout-table">
-                <thead>
-                    <tr>
-                        <th>Image</th> 
-                        <th>Product</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Total</th>
-                     </tr>
-                </thead>
-                <tbody>
+            <div class="slider">
+                <div class="slider-inner">
                     {% for item in cart_items %}
-                        <tr>
-                            <td> 
-                                <img src="data:image/jpeg;base64,{{ item.image_id }}" style="width:50px;height:50px;">
-                                {{ item.name }}
-                            </td>
-                            <td>${{ item.price }}</td>
-                            <td>{{ item.quantity }}</td>
-                            <td>${{ item.total }}</td>
-                        </tr>
+                        <div class="slide">
+                            <img src="data:image/jpeg;base64,{{ item.image_id }}" alt="{{ item.name }}" class="item-image">
+                            <h3>{{ item.name }}</h3>
+                            <p>Price: ${{ item.price }}</p>
+                            <p>Quantity: {{ item.quantity }}</p>
+                            <p>Total: ${{ item.total }}</p>
+                        </div>
                     {% endfor %}
-                </tbody>
-                </table>
+                </div>
+                <button class="nav-button left" onclick="moveSlide(-1)">&#10094;</button>
+                <button class="nav-button right" onclick="moveSlide(1)">&#10095;</button>
+            </div>
             <div class="total-price">
                 <h3>Total: ${{ total_price }}</h3>
             </div>
-            <form action="{% url 'complete_order' %}" method="POST">
+            <form action="{% url 'payment' %}" method="POST"> 
                 {% csrf_token %}
-                <button type="submit">Complete Order</button>
+                <button type="submit">Order Now</button>
             </form>
         {% else %}
             <p>Your cart is empty!</p>
         {% endif %}
     </div>
+    <script src="{% static 'js/checkout.js' %}"></script>
 </body>
 </html>

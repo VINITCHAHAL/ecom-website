@@ -192,6 +192,35 @@ def complete_order(request):
         orders_collection.insert_one(order)
         cart_collection.delete_many({'user_id': user_id})
         return JsonResponse({'message': 'Order completed successfully!'})
-    
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
+
+def payment(request):
+    # Ensure the user has items in the cart; otherwise, redirect
+    if not request.session.get('cart_items'):
+        return redirect('home')  # Redirect to home if the cart is empty
+
+    return render(request, 'payment.html')  # Render the payment page
+def process_payment(request):
+    if request.method == 'POST':
+        # Retrieve address and payment method from the form
+        name = request.POST.get('name')
+        address = request.POST.get('address')
+        city = request.POST.get('city')
+        state = request.POST.get('state')
+        zip_code = request.POST.get('zip')
+        phone = request.POST.get('phone')
+        instructions = request.POST.get('instructions', '')
+        payment_method = request.POST.get('payment_method')
+
+        # Process payment here (you can implement UPI logic or save order details)
+        # For now, just print or save to database
+        print(f"Order placed by {name} with payment method: {payment_method}")
+
+        # Redirect or render a success page
+        return HttpResponse("Payment processed successfully!")  # Replace with a redirect to a success page
+
+    return redirect('payment')  # Redirect back to payment if not POST
+
 
 

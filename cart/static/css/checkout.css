@@ -1,0 +1,85 @@
+/* Reset */
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Checkout Container */
+.checkout-container {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+/* Slider Styles */
+.slider {
+    position: relative;
+    max-width: 800px; /* Adjust based on your design */
+    margin: auto;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.slider-inner {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+    min-width: 100%; /* Each slide takes full width */
+    box-sizing: border-box;
+    padding: 20px; /* Add padding for content */
+    text-align: center; /* Center align text */
+}
+
+.item-image {
+    width: 150px; /* Adjust the size of the image */
+    height: auto;
+    margin-bottom: 10px;
+}
+
+/* Buttons for navigation */
+.nav-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.nav-button.left {
+    left: 10px;
+}
+
+.nav-button.right {
+    right: 10px;
+}
+
+/* Total Price Section */
+.total-price {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 20px 0;
+    text-align: center;
+}
+
+/* Complete Order Button */
+button[type="submit"] {
+    padding: 10px 20px;
+    background-color: #ffdb4d; /* Yellow */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #2874f0;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #f9c02d;
+}

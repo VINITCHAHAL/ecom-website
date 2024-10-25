@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/navbar.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/checkout.css' %}">
+    <style>
+        .payment-container {
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        h3 {
+            margin-bottom: 20px;
+        }
+
+        .address-form, .payment-options {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"], input[type="number"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .payment-option {
+            margin-bottom: 10px;
+        }
+
+        .payment-option label {
+            margin-left: 10px;
+        }
+
+        button[type="submit"] {
+            padding: 10px 20px;
+            background-color: #ffdb4d; /* Yellow */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #2874f0;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #f9c02d;
+        }
+    </style>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <div class="payment-container">
+        <h3>Complete Your Order</h3>
+        <form action="{% url 'process_payment' %}" method="POST">
+            {% csrf_token %}
+            <div class="address-form">
+                <h4>Delivery Address</h4>
+                <input type="text" name="name" placeholder="Full Name" required>
+                <input type="text" name="address" placeholder="Address" required>
+                <input type="text" name="city" placeholder="City" required>
+                <input type="text" name="state" placeholder="State" required>
+                <input type="number" name="zip" placeholder="ZIP Code" required>
+                <input type="text" name="phone" placeholder="Phone Number" required>
+                <textarea name="instructions" placeholder="Special Instructions (optional)"></textarea>
+            </div>
+            <div class="payment-options">
+                <h4>Select Payment Method</h4>
+                <div class="payment-option">
+                    <input type="radio" id="upi" name="payment_method" value="UPI" required>
+                    <label for="upi">UPI</label>
+                </div>
+                <div class="payment-option">
+                    <input type="radio" id="cod" name="payment_method" value="COD" required>
+                    <label for="cod">Cash on Delivery</label>
+                </div>
+            </div>
+            <button type="submit">Proceed to Payment</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -4,13 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
-    <link rel="stylesheet" href="{% static 'css/register.css' %}"> <!-- Link to your CSS file -->
-</head>
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
 <body>
-    <div class="container"> <!-- Add a container div for styling -->
+    <div class="container"> 
         <h2>Register</h2>
         {% if message %}
-            <p class="message">{{ message }}</p> <!-- Add class for message styling -->
+            <p class="message">{{ message }}</p>
         {% endif %}
         <form method="POST">
             {% csrf_token %}
