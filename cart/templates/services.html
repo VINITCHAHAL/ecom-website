@@ -1,6 +1,18 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
 <link rel="stylesheet" href="{% static 'css/home.css' %}">
+<link rel="stylesheet" href="{% static 'css/services.css' %}">
 {% include 'navbar.html' %}
-<h1>Services</h1>
-{% include 'main.html' %}
+
+<section class="services-section">
+    <h1>Our Services</h1>
+    <div class="services-dropdown">
+        <button class="dropdown-button">Select a Service</button>
+        <div class="dropdown-content">
+            <a href="#service1">Service 1</a>
+            <a href="#service2">Service 2</a>
+            <a href="#service3">Service 3</a>
+            <a href="#service4">Service 4</a>
+        </div>
+    </div>
+</section>

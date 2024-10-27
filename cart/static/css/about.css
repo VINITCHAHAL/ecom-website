@@ -1,0 +1,48 @@
+/* about.css */
+
+body {
+    font-family: cursive;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+}
+
+.about-section {
+    max-width: 800px;
+    margin: 60px auto;
+    padding: 40px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.about-section h1 {
+    font-family: 'Brush Script MT', cursive;
+    font-size: 3em;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.about-section p {
+    font-family: 'Brush Script MT', cursive;
+    font-size: 1.5em;
+    color: #666;
+    line-height: 1.6;
+    margin: 10px 0;
+}
+
+/* Responsive styling */
+@media (max-width: 600px) {
+    .about-section {
+        padding: 20px;
+    }
+
+    .about-section h1 {
+        font-size: 2.5em;
+    }
+
+    .about-section p {
+        font-size: 1.2em;
+    }
+}

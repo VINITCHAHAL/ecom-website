@@ -4,13 +4,11 @@
   text-align: center;
   position: relative;
 }
-
 .main-content img {
   height: 100vh;
   width: 100vw;
   z-index: -10;
 }
-
 .main-content article {
   position: absolute;
   color: #000000;
@@ -20,14 +18,4 @@
   left: 23vw;
   text-align: center;
   align-content: center;
-}
-
-.about-section {
-  height: 30vh;
-  text-align: center;
-}
-
-.contact {
-  height: 30vh;
-  text-align: center;
 }
