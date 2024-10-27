@@ -1,9 +1,8 @@
-/* Reset */
+
 body {
     font-family: Arial, sans-serif;
 }
 
-/* Checkout Container */
 .checkout-container {
     margin: 20px;
     padding: 20px;
@@ -11,10 +10,9 @@ body {
     border-radius: 8px;
 }
 
-/* Slider Styles */
 .slider {
     position: relative;
-    max-width: 800px; /* Adjust based on your design */
+    max-width: 800px;
     margin: auto;
     overflow: hidden;
     border: 1px solid #ddd;
@@ -27,19 +25,18 @@ body {
 }
 
 .slide {
-    min-width: 100%; /* Each slide takes full width */
+    min-width: 100%;
     box-sizing: border-box;
-    padding: 20px; /* Add padding for content */
-    text-align: center; /* Center align text */
+    padding: 20px; 
+    text-align: center; 
 }
 
 .item-image {
-    width: 150px; /* Adjust the size of the image */
+    width: 150px;
     height: auto;
     margin-bottom: 10px;
 }
 
-/* Buttons for navigation */
 .nav-button {
     position: absolute;
     top: 50%;
@@ -60,7 +57,6 @@ body {
     right: 10px;
 }
 
-/* Total Price Section */
 .total-price {
     font-size: 18px;
     font-weight: bold;
@@ -68,10 +64,9 @@ body {
     text-align: center;
 }
 
-/* Complete Order Button */
 button[type="submit"] {
     padding: 10px 20px;
-    background-color: #ffdb4d; /* Yellow */
+    background-color: #ffdb4d; 
     border: none;
     border-radius: 5px;
     cursor: pointer;
