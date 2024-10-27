@@ -10,6 +10,7 @@ from .forms import ProductForm
 from base64 import b64encode
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import render, redirect
 from db_connection import get_db 
 from pymongo import MongoClient
 from bson.objectid import ObjectId  
@@ -114,41 +115,45 @@ def home_new(request):
 @csrf_exempt
 def add_to_cart(request):
     if request.method == 'POST':
+        name = request.POST.get('name')
         product_id = request.POST.get('product_id')
         quantity = int(request.POST.get('quantity'))
-        image_id = request.POST.get('image_id')
+        user_id = request.session.get('user_id')
+        print(f"Received data: name={name}, product_id={product_id}, quantity={quantity}, user_id={user_id}")
         if not product_id:
-            print("NO product ID")
             return JsonResponse({'message': 'Product ID is required'}, status=400)
-        user_id = request.session.get('user_id') 
         if not user_id:
             return JsonResponse({'message': 'You need to be logged in to add items to your cart.'}, status=401)
         cart_item = {
             'product_id': product_id,
+            'name': name,  
             'quantity': quantity,
             'user_id': user_id,
         }
         cart_collection.insert_one(cart_item)
-        print("Product added successfully")
-        return redirect('checkout') 
+        return redirect('checkout')
     return JsonResponse({'message': 'Invalid request method'}, status=400)
 
 @csrf_exempt
 def remove_from_cart(request, product_id):
-    user_id = request.user.id
-    cart_collection.delete_one({'product_id': product_id, 'user_id': user_id})
-    return JsonResponse({'message': 'Product removed from cart!'})
+    user_id = request.session.get('user_id')
+    if user_id:
+        cart_collection.delete_one({'product_id': product_id, 'user_id': user_id})
+        return redirect('view_cart')  
+    return redirect('login')  
 
 def view_cart(request):
-    user_id = request.user.id
+    user_id = request.session.get('user_id')
     cart_items = list(cart_collection.find({'user_id': user_id}))
-    products_collection = db['product_details'] 
+    fs = gridfs.GridFS(db)
     for item in cart_items:
-        product = products_collection.find_one({'_id': item['product_id']})
+        product = products_collection.find_one({'_id': ObjectId(item['product_id'])})
         if product:
+            image_data = fs.get(product['image_id']).read()
+            encoded_image = base64.b64encode(image_data).decode('utf-8')
             item['name'] = product['name']
             item['price'] = product['price']
-            item['image_data'] = product['image_data']
+            item['image_data'] = encoded_image
     return render(request, 'cart.html', {'cart_items': cart_items})
 
 def checkout(request):
@@ -192,35 +197,76 @@ def complete_order(request):
         orders_collection.insert_one(order)
         cart_collection.delete_many({'user_id': user_id})
         return JsonResponse({'message': 'Order completed successfully!'})
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
 
 def payment(request):
-    # Ensure the user has items in the cart; otherwise, redirect
-    if not request.session.get('cart_items'):
-        return redirect('home')  # Redirect to home if the cart is empty
+    user_id = request.session.get('user_id')
+    if not user_id:
+        return redirect('login') 
+    cart_items = list(cart_collection.find({'user_id': user_id}))
+    if not cart_items:
+        return redirect('home') 
+    return render(request, 'payment.html', {'cart_items': cart_items})
 
-    return render(request, 'payment.html')  # Render the payment page
 def process_payment(request):
     if request.method == 'POST':
-        # Retrieve address and payment method from the form
+        user_id = request.session.get('user_id')
+        if not user_id:
+            return redirect('login') 
+        total_price = request.POST.get('total_price')
+        cart_items = request.POST.getlist('cart_items')  
+        request.session['total_price'] = total_price
+        request.session['cart_items'] = cart_items
+        return redirect('payment')  
+    return redirect('checkout') 
+
+def finalize_payment(request):
+    if request.method == 'POST':
+        user_id = request.session.get('user_id')
+        if not user_id:
+            return redirect('login') 
+        total_price = request.POST.get('total_price')
+        cart_items = request.POST.getlist('cart_items') 
         name = request.POST.get('name')
         address = request.POST.get('address')
         city = request.POST.get('city')
         state = request.POST.get('state')
         zip_code = request.POST.get('zip')
         phone = request.POST.get('phone')
-        instructions = request.POST.get('instructions', '')
         payment_method = request.POST.get('payment_method')
+        instructions = request.POST.get('instructions', '')
+        orders_collection = db['orders']
+        order = {
+            'user_id': user_id,
+            'total_price': total_price,
+            'cart_items': cart_items,
+            'status': 'Pending',
+            'delivery_address': {
+                'name': name,
+                'address': address,
+                'city': city,
+                'state': state,
+                'zip': zip_code,
+                'phone': phone,
+                'instructions': instructions
+            },
+            'payment_method': payment_method
+        }
+        orders_collection.insert_one(order)
+        cart_collection = db['addtocart']  
+        cart_collection.delete_many({'user_id': user_id})
+        messages.success(request, "Payment processed successfully!")
+        return redirect('track_order') 
+    return redirect('payment')
 
-        # Process payment here (you can implement UPI logic or save order details)
-        # For now, just print or save to database
-        print(f"Order placed by {name} with payment method: {payment_method}")
-
-        # Redirect or render a success page
-        return HttpResponse("Payment processed successfully!")  # Replace with a redirect to a success page
-
-    return redirect('payment')  # Redirect back to payment if not POST
-
-
-
+def track_order(request):
+    user_id = request.session.get('user_id')
+    if not user_id:
+        return redirect('login')  
+    orders_collection = db['orders']
+    orders = orders_collection.find({'user_id': user_id})
+    orders_list = []
+    for order in orders:
+        order['order_id'] = str(order['_id'])  
+        del order['_id']  
+        orders_list.append(order)
+    return render(request, 'track.html', {'orders': orders_list})

@@ -20,8 +20,8 @@
                 <form action="{% url 'add_to_cart' %}" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="product_id" value="{{ product.product_id }}">
+                    <input type="hidden" name="name" value="{{ product.name }}">
                     <input type="number" name="quantity" value="1" min="1">
-                    <input type ="hidden" name="image_id" value="{{ product.image_id }}">
                     <button type="submit">Add to Cart</button>
                 </form>
             </div>
